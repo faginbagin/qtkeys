@@ -24,8 +24,10 @@ Backspace
 Backtab
 C
 ,,<,Ctrl+B,Audio Rewind
+,,<,Ctrl+B,Media Rewind
 Ctrl+C
 >,.,Ctrl+F,Audio Forward
+>,.,Ctrl+F,Media Fast Forward
 Ctrl+P,Media Play,;
 Ctrl+Return
 Ctrl+S
