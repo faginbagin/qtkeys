@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+qtkeys
+
+# Qt generated files
+moc_*.cpp
+moc_*.h
+Makefile*
