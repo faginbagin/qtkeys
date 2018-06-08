@@ -36,6 +36,7 @@ qtkeys
 moc_*.cpp
 moc_*.h
 Makefile*
+.qmake.stash
 
 # vi swap files
 .*.swp

@@ -46,7 +46,7 @@ KeyTool::addKeySequence(QString& seq)
     out << "add: \"" << seq << "\" keynums:";
     out << hex << showbase;
 
-	for (unsigned int i = 0; i < keyseq.count(); i++)
+	for (int i = 0; i < keyseq.count(); i++)
 	{
 		int keynum = keyseq[i];
 		keynum &= ~Qt::UNICODE_ACCEL;

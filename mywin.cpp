@@ -1,4 +1,4 @@
-
+#include <QApplication>
 #include <QTextStream>
 #include "mywin.h"
 

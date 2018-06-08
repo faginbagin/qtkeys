@@ -1,3 +1,5 @@
+#include <QApplication>
+#include <QTextStream>
 #include "mywin.h"
 
 void readFile(const char* fileName, KeyTool& keytool)

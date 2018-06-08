@@ -5,8 +5,8 @@ QMAKE_CLEAN += $(TARGET)
 
 message( "QT_MAJOR_VERSION = $${QT_MAJOR_VERSION}" )
 
-qt4 {
-	SOURCES += main.cpp
+qt5 {
+    QT += widgets
 }
 
-SOURCES += mywin.h mywin.cpp keytool.cpp
+SOURCES += main.cpp mywin.h mywin.cpp keytool.cpp
