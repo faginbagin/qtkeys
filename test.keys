@@ -1,8 +1,9 @@
+
 -
 ?
 /
-;,*
-#,Alt+3
+*
+#
 +
 0
 1
@@ -16,21 +17,29 @@
 9
 A
 Alt+F7
+Alt+M
+ALT+P
 B
 Backspace
+Backtab
 C
-C,Q,Home
-,,<,Ctrl+B
->,.,Ctrl+F,'
-Ctrl+P,Alt+Return,Alt+Meta+Return,;
+,,<,Ctrl+B,Audio Rewind
+Ctrl+C
+>,.,Ctrl+F,Audio Forward
+Ctrl+P,Media Play,;
+Ctrl+Return
+Ctrl+S
 Ctrl+U
+Ctrl+V
 Ctrl+W
+Ctrl+X
 Ctrl+Y
+Ctrl+Z
+C,Z,Home,Media Previous
 D,Ctrl+E
 Down
 E
 End
-End,1
 Esc
 F
 F1
@@ -50,7 +59,6 @@ F8
 G
 H
 Home
-Home,7
 I,Ctrl+I
 J
 K
@@ -59,18 +67,26 @@ M,Ctrl+M
 N
 O
 P
+P,Alt+Return,Alt+Meta+Return
 PgDown
 PgUp
-Q,Home
+P,Media Play
+Q,End,Media Next
+Q,Media Next
+R,Backspace
 R,Ctrl+R
 Return,Enter,Space
+Return,Space,Enter
 Right
 S,Ctrl+G
-T
+Tab
+T,Media Stop
 U,Ctrl+O
 Up
 V
+W
 W,Ctrl+T
 X
 Y
-Z,End
+Z,Home,Media Previous
+Z,Media Previous

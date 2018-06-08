@@ -6,54 +6,18 @@ KeyTool::KeyTool()
 }
 
 // Make keynum in QKeyEvent equivalent to what's in QKeySequence
-// The 0.21 version
+// The 0.27 version
 int
-KeyTool::translateKeynum21(QKeyEvent* e)
+KeyTool::translateKeynum27(QKeyEvent* e)
 {
     int keynum = e->key();
 
-    if (keynum != Qt::Key_Escape &&
-        (keynum <  Qt::Key_Shift || keynum > Qt::Key_ScrollLock))
-    {
-        // if modifiers have been pressed, rebuild keynum
-#if QT_VERSION < 0x040000
-        Qt::ButtonState modifiers;
-        modifiers = e->state();
-#else
-        Qt::KeyboardModifiers modifiers;
-        modifiers = e->modifiers();
-#endif
-        if (modifiers != 0)
-        {
-#if QT_VERSION < 0x040000
-            int modnum = (((modifiers & Qt::ShiftButton) &&
-                           keynum > 0x7f) ? Qt::SHIFT : 0) |
-                         ((modifiers & Qt::ControlButton) ? Qt::CTRL : 0) |
-                         ((modifiers & Qt::MetaButton) ? Qt::META : 0) |
-                         ((modifiers & Qt::AltButton) ? Qt::ALT : 0);
-#else
-            int modnum = (((modifiers & Qt::ShiftModifier) &&
-                           keynum > 0x7f) ? Qt::SHIFT : 0) |
-                         ((modifiers & Qt::ControlModifier) ? Qt::CTRL : 0) |
-                         ((modifiers & Qt::MetaModifier) ? Qt::META : 0) |
-                         ((modifiers & Qt::AltModifier) ? Qt::ALT : 0);
-#endif
-            modnum &= ~Qt::UNICODE_ACCEL;
-            return (keynum |= modnum);
-        }
-    }
-
-    return keynum;
-}
-
-// The 0.22 version
-int
-KeyTool::translateKeynum22(QKeyEvent* e)
-{
-    int keynum = e->key();
-
-    if (keynum != Qt::Key_Escape &&
-        (keynum <  Qt::Key_Shift || keynum > Qt::Key_ScrollLock))
+    if ((keynum != Qt::Key_Shift  ) && (keynum !=Qt::Key_Control   ) &&
+        (keynum != Qt::Key_Meta   ) && (keynum !=Qt::Key_Alt       ) &&
+        (keynum != Qt::Key_Super_L) && (keynum !=Qt::Key_Super_R   ) &&
+        (keynum != Qt::Key_Hyper_L) && (keynum !=Qt::Key_Hyper_R   ) &&
+        (keynum != Qt::Key_AltGr  ) && (keynum !=Qt::Key_CapsLock  ) &&
+        (keynum != Qt::Key_NumLock) && (keynum !=Qt::Key_ScrollLock ))
     {
         Qt::KeyboardModifiers modifiers;
         // if modifiers have been pressed, rebuild keynum
@@ -61,10 +25,10 @@ KeyTool::translateKeynum22(QKeyEvent* e)
         {
             int modnum = (((modifiers & Qt::ShiftModifier) &&
                             (keynum > 0x7f) &&
-                            (keynum != Qt::Key_Backtab)) ? Qt::SHIFT : 0) |
-                         ((modifiers & Qt::ControlModifier) ? Qt::CTRL : 0) |
-                         ((modifiers & Qt::MetaModifier) ? Qt::META : 0) |
-                         ((modifiers & Qt::AltModifier) ? Qt::ALT : 0);
+                            (keynum != Qt::Key_Backtab)) ? (int)Qt::SHIFT : 0) |
+                         ((modifiers & Qt::ControlModifier) ? (int)Qt::CTRL : 0) |
+                         ((modifiers & Qt::MetaModifier) ? (int)Qt::META : 0) |
+                         ((modifiers & Qt::AltModifier) ? (int)Qt::ALT : 0);
             modnum &= ~Qt::UNICODE_ACCEL;
             return (keynum |= modnum);
         }
@@ -74,33 +38,30 @@ KeyTool::translateKeynum22(QKeyEvent* e)
 }
 
 void
-KeyTool::addKeySequence(const char* str)
+KeyTool::addKeySequence(QString& seq)
 {
-	QString seq = QObject::tr(str);
 	QKeySequence keyseq(seq);
+
+	QTextStream out(stdout);
+    out << "add: \"" << seq << "\" keynums:";
+    out << hex << showbase;
 
 	for (unsigned int i = 0; i < keyseq.count(); i++)
 	{
 		int keynum = keyseq[i];
 		keynum &= ~Qt::UNICODE_ACCEL;
 		keybindings.insert(keynum, seq);
+        out << " " << keynum;
 	}
+    out << endl;
 }
 
 void
 KeyTool::findKeySequence(QKeyEvent* ev)
 {
-	int key21 = translateKeynum21(ev);
-	int key22 = translateKeynum22(ev);
+	int key27 = translateKeynum27(ev);
 
-	if (key21 != key22)
-	{
-		QTextStream out(stdout);
-		out << hex << showbase;
-		out << "0.21 keynum=" << key21 << " does not equal 0.22 keynum=" << key22 << endl;
-		findKeySequence(key21);
-	}
-	findKeySequence(key22);
+	findKeySequence(key27);
 }
 
 void
@@ -109,7 +70,8 @@ KeyTool::findKeySequence(int keynum)
 	QTextStream out(stdout);
 	int count = keybindings.count(keynum);
 	out << hex << showbase;
-	out << "keynum=" << keynum << " matches " << count << " key sequences:" << endl;
+	out << "keynum=" << keynum << "," << QKeySequence(keynum).toString() <<
+        " matches " << count << " key sequences:" << endl;
 		
 	QMultiHash<int, QString>::iterator iter = keybindings.find(keynum);
 	int i = 0;

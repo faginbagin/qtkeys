@@ -1,5 +1,7 @@
 
+TEMPLATE = app
 CONFIG += qt debug qt$${QT_MAJOR_VERSION}
+QMAKE_CLEAN += $(TARGET)
 
 message( "QT_MAJOR_VERSION = $${QT_MAJOR_VERSION}" )
 
